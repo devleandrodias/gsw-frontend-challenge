@@ -2,6 +2,8 @@ import { useCallback, useContext, useEffect, useState } from "react";
 
 import { TransactionContext } from "../../contexts/TransactionContext";
 
+import styles from "../../styles/Summary.module.css";
+
 export function Summary() {
   const { transactions, balance } = useContext(TransactionContext);
 
@@ -25,23 +27,23 @@ export function Summary() {
 
     setTotalDeposits(totalDeposits);
     setTotalWithdrawals(totalWithdrawals);
-  }, transactions);
+  }, [transactions]);
 
   useEffect(() => {
     fetchCardsInformations();
   }, []);
 
   return (
-    <div>
-      <div>
+    <div className={styles.container}>
+      <div className={styles.card}>
         <span>Depósitos</span>
         <span>R${totalDeposits}</span>
       </div>
-      <div>
+      <div className={styles.card}>
         <span>Saques</span>
         <span>R${totalWithdrawals}</span>
       </div>
-      <div>
+      <div className={styles.card}>
         <span>Saldo</span>
         <span>R${balance}</span>
       </div>
