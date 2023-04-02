@@ -1,10 +1,10 @@
 import { Transactions } from "./Transactions";
-import { TransactionsProvider } from "../contexts/TransactionContext";
+import { TransactionProvider } from "../contexts/TransactionContext";
 
 export function App() {
   return (
-    <TransactionsProvider>
+    <TransactionProvider>
       <Transactions />
-    </TransactionsProvider>
+    </TransactionProvider>
   );
 }
