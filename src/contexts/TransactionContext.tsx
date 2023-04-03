@@ -8,7 +8,7 @@ import {
 
 import { api } from "../lib/axios";
 
-enum ETransactionType {
+export enum ETransactionType {
   DEPOSIT = "DEPOSIT",
   WITHDRAWAL = "WITHDRAWAL",
 }

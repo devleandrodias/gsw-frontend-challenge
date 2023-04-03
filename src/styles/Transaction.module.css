@@ -1,0 +1,12 @@
+.tableContainer {
+  margin-top: 2rem;
+  padding: 0 2rem;
+}
+
+.tableData {
+  padding: 1.25rem 2rem;
+}
+
+.tableRow {
+  background-color: #29292e;
+}
