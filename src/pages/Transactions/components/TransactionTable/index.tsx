@@ -1,61 +1,41 @@
 import { useContext } from "react";
 
-import styles from "../../../../styles/Transaction.module.css";
+import { formatBRLDate } from "../../../../utils/formatBRLDate";
+import { formatBRLCurrency } from "../../../../utils/formatBRLCurrency";
+import { getTransactionType } from "../../../../utils/formatBRLTransactionType";
 
 import {
   ETransactionType,
   TransactionContext,
 } from "../../../../contexts/TransactionContext";
 
-import { formatBRLDate } from "../../../../utils/formatBRLDate";
-import { formatBRLCurrency } from "../../../../utils/formatBRLCurrency";
+import {
+  PriceHighLight,
+  TransactionsTable,
+  TransactionsTableContainer,
+} from "./styles";
 
 export function TransactionTable() {
   const { transactions } = useContext(TransactionContext);
 
-  const getTransactionType = (type: ETransactionType) => {
-    switch (type) {
-      case ETransactionType.DEPOSIT:
-        return "Depósito";
-      case ETransactionType.WITHDRAWAL:
-        return "Saque";
-    }
-  };
-
   return (
-    <div className={styles.tableContainer}>
-      <table
-        style={{
-          width: "100%",
-          borderCollapse: "separate",
-          borderSpacing: "0 0.5rem",
-        }}
-      >
+    <TransactionsTableContainer>
+      <TransactionsTable>
         <tbody>
           {transactions.map((transaction) => (
-            <tr className={styles.tableRow}>
-              <td className={styles.tableData}>
-                {getTransactionType(transaction.type)}
+            <tr>
+              <td>{getTransactionType(transaction.type)}</td>
+              <td>
+                <PriceHighLight type={transaction.type}>
+                  {transaction.type === ETransactionType.WITHDRAWAL && "- "}
+                  {formatBRLCurrency(transaction.amount)}
+                </PriceHighLight>
               </td>
-              <td
-                className={styles.tableData}
-                style={{
-                  color:
-                    transaction.type === ETransactionType.DEPOSIT
-                      ? "#00B37E"
-                      : "#F75A68",
-                }}
-              >
-                {transaction.type === ETransactionType.WITHDRAWAL && "- "}
-                {formatBRLCurrency(transaction.amount)}
-              </td>
-              <td className={styles.tableData}>
-                {formatBRLDate(String(transaction.created_at))}
-              </td>
+              <td>{formatBRLDate(String(transaction.created_at))}</td>
             </tr>
           ))}
         </tbody>
-      </table>
-    </div>
+      </TransactionsTable>
+    </TransactionsTableContainer>
   );
 }
