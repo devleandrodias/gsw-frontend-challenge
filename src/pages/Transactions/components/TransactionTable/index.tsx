@@ -23,7 +23,7 @@ export function TransactionTable() {
       <TransactionsTable>
         <tbody>
           {transactions.map((transaction) => (
-            <tr>
+            <tr key={transaction.id}>
               <td>{getTransactionType(transaction.type)}</td>
               <td>
                 <PriceHighLight type={transaction.type}>

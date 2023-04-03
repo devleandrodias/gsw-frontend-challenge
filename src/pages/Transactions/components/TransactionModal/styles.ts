@@ -3,6 +3,8 @@ import styled, { css } from "styled-components";
 import * as Dialog from "@radix-ui/react-dialog";
 import * as RadioGroup from "@radix-ui/react-radio-group";
 
+import { ETransactionType } from "../../../../contexts/TransactionContext";
+
 export const Overlay = styled(Dialog.Overlay)`
   inset: 0;
   width: 100vw;
@@ -76,7 +78,7 @@ export const CloseButton = styled(Dialog.Close)`
 `;
 
 interface TransactionTypeButtonProps {
-  variant: "income" | "outcome";
+  variant: ETransactionType;
 }
 
 export const TransactionTypeButton = styled(
@@ -95,7 +97,7 @@ export const TransactionTypeButton = styled(
 
   svg {
     color: ${(props) =>
-      props.variant === "income"
+      props.variant === ETransactionType.DEPOSIT
         ? props.theme["green-300"]
         : props.theme["red-300"]};
   }
@@ -108,7 +110,7 @@ export const TransactionTypeButton = styled(
   &[data-state="checked"] {
     color: ${(props) => props.theme["white"]};
     background: ${(props) =>
-      props.variant === "income"
+      props.variant === ETransactionType.DEPOSIT
         ? props.theme["green-500"]
         : props.theme["red-500"]};
 
@@ -118,7 +120,7 @@ export const TransactionTypeButton = styled(
   }
 
   ${(props) =>
-    props.variant === "outcome" &&
+    props.variant === ETransactionType.WITHDRAWAL &&
     css`
       :focus {
         outline: 0;

@@ -12,7 +12,7 @@ export function Header() {
         <img src={logo} height={100} />
         <Dialog.Root>
           <Dialog.Trigger asChild>
-            <NewWithdrawalButton>Novo Saque</NewWithdrawalButton>
+            <NewWithdrawalButton>Nova Transação</NewWithdrawalButton>
           </Dialog.Trigger>
           <TransactionModal />
         </Dialog.Root>

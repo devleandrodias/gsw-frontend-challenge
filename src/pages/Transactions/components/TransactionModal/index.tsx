@@ -1,5 +1,4 @@
-import * as Dialog from "@radix-ui/react-dialog";
-
+import { useForm, Controller } from "react-hook-form";
 import { X, ArrowCircleUp, ArrowCircleDown } from "phosphor-react";
 
 import {
@@ -10,7 +9,24 @@ import {
   TransactionTypeButton,
 } from "./styles";
 
+import * as Dialog from "@radix-ui/react-dialog";
+
+import { ETransactionType } from "../../../../contexts/TransactionContext";
+
+type NewTransactionFormInputs = {
+  amount: number;
+  type: ETransactionType;
+};
+
 export function TransactionModal() {
+  const { reset, register, control, handleSubmit } =
+    useForm<NewTransactionFormInputs>();
+
+  async function handleCreateNewTransaction(data: NewTransactionFormInputs) {
+    console.log(data);
+    reset();
+  }
+
   return (
     <Dialog.Portal>
       <Overlay />
@@ -21,18 +37,40 @@ export function TransactionModal() {
           <X size={20} />
         </CloseButton>
 
-        <form>
-          <input required type="number" placeholder="Valor" />
-          <TransactionType>
-            <TransactionTypeButton variant="income" value="income">
-              <ArrowCircleUp size={24} />
-              Depósito
-            </TransactionTypeButton>
-            <TransactionTypeButton variant="outcome" value="outcome">
-              <ArrowCircleDown size={24} />
-              Saque
-            </TransactionTypeButton>
-          </TransactionType>
+        <form onSubmit={handleSubmit(handleCreateNewTransaction)}>
+          <input
+            required
+            type="number"
+            placeholder="Valor"
+            {...register("amount", { valueAsNumber: true })}
+          />
+          <Controller
+            name="type"
+            control={control}
+            render={({ field }) => {
+              return (
+                <TransactionType
+                  value={field.value}
+                  onValueChange={field.onChange}
+                >
+                  <TransactionTypeButton
+                    value={ETransactionType.DEPOSIT}
+                    variant={ETransactionType.DEPOSIT}
+                  >
+                    <ArrowCircleUp size={24} />
+                    Depósito
+                  </TransactionTypeButton>
+                  <TransactionTypeButton
+                    value={ETransactionType.WITHDRAWAL}
+                    variant={ETransactionType.WITHDRAWAL}
+                  >
+                    <ArrowCircleDown size={24} />
+                    Saque
+                  </TransactionTypeButton>
+                </TransactionType>
+              );
+            }}
+          ></Controller>
           <button type="submit">Confirmar</button>
         </form>
       </Content>
