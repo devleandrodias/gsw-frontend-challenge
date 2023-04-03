@@ -1,5 +1,8 @@
-import { useCallback, useContext, useEffect, useState } from "react";
+import { ArrowCircleUp, ArrowCircleDown, CurrencyDollar } from "phosphor-react";
 
+import { useContext, useEffect, useState } from "react";
+
+import { formatBRLCurrency } from "../../utils/formatBRLCurrency";
 import { TransactionContext } from "../../contexts/TransactionContext";
 
 import styles from "../../styles/Summary.module.css";
@@ -10,7 +13,7 @@ export function Summary() {
   const [totalDeposits, setTotalDeposits] = useState(0);
   const [totalWithdrawals, setTotalWithdrawals] = useState(0);
 
-  const fetchCardsInformations = useCallback(() => {
+  useEffect(() => {
     let totalDeposits = 0;
     let totalWithdrawals = 0;
 
@@ -29,23 +32,34 @@ export function Summary() {
     setTotalWithdrawals(totalWithdrawals);
   }, [transactions]);
 
-  useEffect(() => {
-    fetchCardsInformations();
-  }, []);
-
   return (
     <div className={styles.container}>
       <div className={styles.card}>
-        <span>Depósitos</span>
-        <span>R${totalDeposits}</span>
+        <header className={styles.cardHeader}>
+          <span>Depósitos</span>
+          <ArrowCircleUp size={32} color="#00b37e" />
+        </header>
+        <strong className={styles.cardStrong}>
+          {formatBRLCurrency(totalDeposits)}
+        </strong>
       </div>
       <div className={styles.card}>
-        <span>Saques</span>
-        <span>R${totalWithdrawals}</span>
+        <header className={styles.cardHeader}>
+          <span>Saques</span>
+          <ArrowCircleDown size={32} color="#f75a68" />
+        </header>
+        <strong className={styles.cardStrong}>
+          {formatBRLCurrency(totalWithdrawals)}
+        </strong>
       </div>
       <div className={styles.card}>
-        <span>Saldo</span>
-        <span>R${balance}</span>
+        <header className={styles.cardHeader}>
+          <span>Saldo</span>
+          <CurrencyDollar size={32} color="#fff" />
+        </header>
+        <strong className={styles.cardStrong}>
+          {formatBRLCurrency(balance)}
+        </strong>
       </div>
     </div>
   );

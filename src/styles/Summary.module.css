@@ -1,13 +1,27 @@
 .container {
   display: grid;
-  padding: 0 2rem;
+  padding: 0 5rem;
   column-gap: 2rem;
-  margin-top: -5px;
+  margin-top: -75px;
   grid-template-columns: 1fr 1fr 1fr;
 }
 
 .card {
+  height: 150px;
   padding: 2rem;
   border-radius: 6px;
   background-color: #323238;
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #C4C4CC
+}
+
+.cardStrong {
+  display: block;
+  margin-top: 1rem;
+  font-size: 1.5rem;
 }

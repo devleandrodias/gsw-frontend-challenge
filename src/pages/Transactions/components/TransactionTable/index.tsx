@@ -7,6 +7,9 @@ import {
   TransactionContext,
 } from "../../../../contexts/TransactionContext";
 
+import { formatBRLDate } from "../../../../utils/formatBRLDate";
+import { formatBRLCurrency } from "../../../../utils/formatBRLCurrency";
+
 export function TransactionTable() {
   const { transactions } = useContext(TransactionContext);
 
@@ -34,9 +37,20 @@ export function TransactionTable() {
               <td className={styles.tableData}>
                 {getTransactionType(transaction.type)}
               </td>
-              <td className={styles.tableData}>{transaction.amount}</td>
+              <td
+                className={styles.tableData}
+                style={{
+                  color:
+                    transaction.type === ETransactionType.DEPOSIT
+                      ? "#00B37E"
+                      : "#F75A68",
+                }}
+              >
+                {transaction.type === ETransactionType.WITHDRAWAL && "- "}
+                {formatBRLCurrency(transaction.amount)}
+              </td>
               <td className={styles.tableData}>
-                {new Date(transaction.created_at).toISOString()}
+                {formatBRLDate(String(transaction.created_at))}
               </td>
             </tr>
           ))}
