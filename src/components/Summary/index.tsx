@@ -5,7 +5,7 @@ import { useContext, useEffect, useState } from "react";
 import { formatBRLCurrency } from "../../utils/formatBRLCurrency";
 import { TransactionContext } from "../../contexts/TransactionContext";
 
-import styles from "../../styles/Summary.module.css";
+import { SummaryCard, SummaryContainer } from "./styles";
 
 export function Summary() {
   const { transactions, balance } = useContext(TransactionContext);
@@ -33,34 +33,28 @@ export function Summary() {
   }, [transactions]);
 
   return (
-    <div className={styles.container}>
-      <div className={styles.card}>
-        <header className={styles.cardHeader}>
+    <SummaryContainer>
+      <SummaryCard>
+        <header>
           <span>Depósitos</span>
           <ArrowCircleUp size={32} color="#00b37e" />
         </header>
-        <strong className={styles.cardStrong}>
-          {formatBRLCurrency(totalDeposits)}
-        </strong>
-      </div>
-      <div className={styles.card}>
-        <header className={styles.cardHeader}>
+        <strong>{formatBRLCurrency(totalDeposits)}</strong>
+      </SummaryCard>
+      <SummaryCard>
+        <header>
           <span>Saques</span>
           <ArrowCircleDown size={32} color="#f75a68" />
         </header>
-        <strong className={styles.cardStrong}>
-          {formatBRLCurrency(totalWithdrawals)}
-        </strong>
-      </div>
-      <div className={styles.card}>
-        <header className={styles.cardHeader}>
+        <strong>{formatBRLCurrency(totalWithdrawals)}</strong>
+      </SummaryCard>
+      <SummaryCard>
+        <header>
           <span>Saldo</span>
           <CurrencyDollar size={32} color="#fff" />
         </header>
-        <strong className={styles.cardStrong}>
-          {formatBRLCurrency(balance)}
-        </strong>
-      </div>
-    </div>
+        <strong>{formatBRLCurrency(balance)}</strong>
+      </SummaryCard>
+    </SummaryContainer>
   );
 }
