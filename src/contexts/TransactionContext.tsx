@@ -8,6 +8,11 @@ import {
 
 import { api } from "../lib/axios";
 
+export interface CreateTransactionInput {
+  amount: number;
+  type: ETransactionType;
+}
+
 export enum ETransactionType {
   DEPOSIT = "DEPOSIT",
   WITHDRAWAL = "WITHDRAWAL",
@@ -24,11 +29,15 @@ export interface Transaction {
 export interface TransactionContextType {
   balance: number;
   transactions: Transaction[];
+  fetchTransactions: () => Promise<void>;
+  createTransaction: (data: CreateTransactionInput) => Promise<void>;
 }
 
 export const TransactionContext = createContext<TransactionContextType>({
   balance: 0,
   transactions: [],
+  fetchTransactions: async () => {},
+  createTransaction: async () => {},
 });
 
 export interface TransactionProviderProps {
@@ -51,12 +60,27 @@ export function TransactionProvider({ children }: TransactionProviderProps) {
     setTransactions(data.transactions);
   }, []);
 
+  const createTransaction = useCallback(
+    async (data: CreateTransactionInput) => {
+      if (data.type === ETransactionType.DEPOSIT) {
+        await api.post("/atm/deposit", { amount: data.amount });
+      }
+
+      if (data.type === ETransactionType.WITHDRAWAL) {
+        await api.post("/atm/withdraw", { amount: data.amount });
+      }
+    },
+    []
+  );
+
   useEffect(() => {
     fetchTransactions();
   }, []);
 
   return (
-    <TransactionContext.Provider value={{ transactions, balance }}>
+    <TransactionContext.Provider
+      value={{ transactions, balance, fetchTransactions, createTransaction }}
+    >
       {children}
     </TransactionContext.Provider>
   );

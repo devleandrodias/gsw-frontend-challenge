@@ -11,7 +11,11 @@ import {
 
 import * as Dialog from "@radix-ui/react-dialog";
 
-import { ETransactionType } from "../../../../contexts/TransactionContext";
+import {
+  ETransactionType,
+  TransactionContext,
+} from "../../../../contexts/TransactionContext";
+import { useContext } from "react";
 
 type NewTransactionFormInputs = {
   amount: number;
@@ -19,12 +23,21 @@ type NewTransactionFormInputs = {
 };
 
 export function TransactionModal() {
+  const { createTransaction, fetchTransactions } =
+    useContext(TransactionContext);
+
   const { reset, register, control, handleSubmit } =
     useForm<NewTransactionFormInputs>();
 
   async function handleCreateNewTransaction(data: NewTransactionFormInputs) {
-    console.log(data);
+    await createTransaction({
+      type: data.type,
+      amount: data.amount,
+    });
+
     reset();
+
+    fetchTransactions();
   }
 
   return (
