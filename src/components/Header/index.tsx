@@ -1,11 +1,14 @@
 import logo from "../../assets/santander-logo.png";
-import styles from "../../styles/Header.module.css";
+
+import { HeaderContainer, HeaderContent, NewWithdrawalButton } from "./styles";
 
 export function Header() {
   return (
-    <div className={styles.container}>
-      <img src={logo} height={100} />
-      <button className={styles.button}>Novo Saque</button>
-    </div>
+    <HeaderContainer>
+      <HeaderContent>
+        <img src={logo} height={100} />
+        <NewWithdrawalButton>Novo Saque</NewWithdrawalButton>
+      </HeaderContent>
+    </HeaderContainer>
   );
 }
