@@ -1,5 +1,5 @@
-import { toast } from "react-toastify";
 import { useContext, useState } from "react";
+import { ToastOptions, toast } from "react-toastify";
 import { useForm, Controller } from "react-hook-form";
 import { X, ArrowCircleUp, ArrowCircleDown, Money } from "phosphor-react";
 
@@ -13,11 +13,12 @@ import {
 
 import * as Dialog from "@radix-ui/react-dialog";
 
+import { formatBRLCurrency } from "../../../../utils/formatBRLCurrency";
+
 import {
   ETransactionType,
   TransactionContext,
 } from "../../../../contexts/TransactionContext";
-import { formatBRLCurrency } from "../../../../utils/formatBRLCurrency";
 
 type NewTransactionFormInputs = {
   amount: number;
@@ -47,21 +48,12 @@ export function TransactionModal() {
     type,
     amount,
   }: NewTransactionFormInputs) {
+    console.log(type, amount);
     setNotes([]);
 
     let successMessage = "";
 
-    if (type === ETransactionType.DEPOSIT) {
-      await createDepositTransaction({ amount });
-      successMessage = "Depósito efetuado com sucesso!";
-    }
-
-    if (type === ETransactionType.WITHDRAWAL) {
-      setNotes((await createWithdrawTransaction({ amount })).notes);
-      successMessage = "Saque efetuado com sucesso!";
-    }
-
-    toast.success(successMessage, {
+    const toastConfigs: ToastOptions = {
       position: "top-right",
       autoClose: 3000,
       hideProgressBar: false,
@@ -70,9 +62,38 @@ export function TransactionModal() {
       draggable: true,
       progress: undefined,
       theme: "dark",
-    });
+    };
 
-    await fetchTransactions();
+    try {
+      if (type === ETransactionType.DEPOSIT) {
+        await createDepositTransaction({ amount });
+        successMessage = "Depósito efetuado com sucesso!";
+      }
+
+      if (type === ETransactionType.WITHDRAWAL) {
+        const response = await createWithdrawTransaction({ amount });
+        setNotes(response.notes);
+        successMessage = "Saque efetuado com sucesso!";
+      }
+
+      toast.success(successMessage, toastConfigs);
+
+      reset();
+
+      await fetchTransactions();
+    } catch (error: any) {
+      if (error.response.data.statusCode === 400) {
+        toast.warning("Campo valor deve ser positivo", toastConfigs);
+      }
+
+      if (error.response.data.statusCode === 422) {
+        toast.warning(error.response.data.errorMessage, toastConfigs);
+      }
+
+      if (error.response.data.statusCode === 500) {
+        toast.warning("Ocorreu um erro não esperado", toastConfigs);
+      }
+    }
   }
 
   return (
@@ -119,6 +140,7 @@ export function TransactionModal() {
                   <TransactionType
                     value={field.value}
                     onValueChange={field.onChange}
+                    {...register("amount", { valueAsNumber: true })}
                   >
                     <TransactionTypeButton
                       value={ETransactionType.DEPOSIT}
