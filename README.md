@@ -1,5 +1,9 @@
 # GSW Frontend Challenge
 
+<p align="center">
+  <img src="src/assets/application-example.png" alt="texto alternativo" width="1100" height="500" />
+</p>
+
 ## :dart: Objetivo
 
 > O objetivo deste projeto é desenvolver um frontend para um caixa eletrônico que permita aos usuários realizar depósitos e saques de forma fácil e intuitiva. O projeto visa fornecer uma interface de usuário limpa e agradável que permita aos usuários navegar facilmente pelas opções de depósito e saque, inserir e confirmar os valores das transações e fornecer feedback claro e preciso em cada etapa do processo
@@ -28,7 +32,7 @@
 Para instalar o projeto, clone este repositório e execute o seguinte comando:
 
 <code>
-  npm install && npm run build && npm run preview
+npm install && npm run build && npm run preview
 </code>
 
 Isso iniciará o aplicativo e abrirá uma nova janela do navegador. Você pode acessar o aplicativo em http://localhost:4173
