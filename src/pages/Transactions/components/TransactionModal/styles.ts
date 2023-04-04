@@ -78,6 +78,21 @@ export const CloseButton = styled(Dialog.Close)`
   color: ${(props) => props.theme["gray-300"]};
 `;
 
+export const NotesContainer = styled.div`
+  margin-top: 2rem;
+  font-size: 1.25rem;
+
+  svg {
+    color: ${(props) => props.theme["green-300"]};
+  }
+`;
+
+export const NoteRow = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+`;
+
 interface TransactionTypeButtonProps {
   variant: ETransactionType;
 }

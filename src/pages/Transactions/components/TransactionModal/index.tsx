@@ -6,7 +6,9 @@ import { X, ArrowCircleUp, ArrowCircleDown, Money } from "phosphor-react";
 import {
   Content,
   Overlay,
+  NoteRow,
   CloseButton,
+  NotesContainer,
   TransactionType,
   TransactionTypeButton,
 } from "./styles";
@@ -40,6 +42,8 @@ export function TransactionModal() {
     });
 
   const { isSubmitting } = formState;
+
+  const notesModalIsOpen = notes.length;
 
   function handleReset() {
     reset();
@@ -103,7 +107,7 @@ export function TransactionModal() {
       <Overlay />
       <Content>
         <Dialog.Title>
-          {notes.length ? (
+          {notesModalIsOpen ? (
             <span>Retire seu dinheiro</span>
           ) : (
             <span>Nova transação</span>
@@ -114,18 +118,16 @@ export function TransactionModal() {
           <X size={20} />
         </CloseButton>
 
-        {notes.length ? (
-          <div style={{ marginTop: "2rem" }}>
+        {notesModalIsOpen ? (
+          <NotesContainer>
             {notes.map((note) => (
-              <div
-                style={{ display: "flex", alignItems: "center", gap: "1rem" }}
-              >
+              <NoteRow>
                 <span>{note.quantity} x</span>
-                <Money color="#00B37E" size={32} />
+                <Money size={32} />
                 <span>{formatBRLCurrency(note.note)}</span>
-              </div>
+              </NoteRow>
             ))}
-          </div>
+          </NotesContainer>
         ) : (
           <form onSubmit={handleSubmit(handleCreateNewTransaction)}>
             <input
