@@ -1,14 +1,12 @@
+import { useEffect, useState } from "react";
 import { ArrowCircleUp, ArrowCircleDown, CurrencyDollar } from "phosphor-react";
 
-import { useContext, useEffect, useState } from "react";
-
-import { formatBRLCurrency } from "../../utils/formatBRLCurrency";
-import { TransactionContext } from "../../contexts/TransactionContext";
-
 import { SummaryCard, SummaryContainer } from "./styles";
+import { formatBRLCurrency } from "../../utils/formatBRLCurrency";
+import { useTransactionContext } from "../../hooks/useTransactionContext";
 
 export function Summary() {
-  const { transactions, balance } = useContext(TransactionContext);
+  const { transactions, balance } = useTransactionContext();
 
   const [totalDeposits, setTotalDeposits] = useState(0);
   const [totalWithdrawals, setTotalWithdrawals] = useState(0);

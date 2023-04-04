@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { ToastOptions, toast } from "react-toastify";
 import { useForm, Controller } from "react-hook-form";
 import { X, ArrowCircleUp, ArrowCircleDown, Money } from "phosphor-react";
@@ -16,8 +16,8 @@ import {
 import * as Dialog from "@radix-ui/react-dialog";
 
 import { formatBRLCurrency } from "../../../../utils/formatBRLCurrency";
-import { TransactionContext } from "../../../../contexts/TransactionContext";
 import { ETransactionType } from "../../../../shared/enuns/ETransactionType";
+import { useTransactionContext } from "../../../../hooks/useTransactionContext";
 
 type NewTransactionFormInputs = {
   amount: number;
@@ -31,7 +31,7 @@ export function TransactionModal() {
     fetchTransactions,
     createDepositTransaction,
     createWithdrawTransaction,
-  } = useContext(TransactionContext);
+  } = useTransactionContext();
 
   const { reset, register, control, handleSubmit, formState } =
     useForm<NewTransactionFormInputs>({
