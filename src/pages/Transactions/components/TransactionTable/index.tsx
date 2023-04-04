@@ -3,11 +3,8 @@ import { useContext } from "react";
 import { formatBRLDate } from "../../../../utils/formatBRLDate";
 import { formatBRLCurrency } from "../../../../utils/formatBRLCurrency";
 import { getTransactionType } from "../../../../utils/formatBRLTransactionType";
-
-import {
-  ETransactionType,
-  TransactionContext,
-} from "../../../../contexts/TransactionContext";
+import { TransactionContext } from "../../../../contexts/TransactionContext";
+import { ETransactionType } from "../../../../shared/enuns/ETransactionType";
 
 import {
   PriceHighLight,

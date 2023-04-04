@@ -3,7 +3,7 @@ import styled, { css } from "styled-components";
 import * as Dialog from "@radix-ui/react-dialog";
 import * as RadioGroup from "@radix-ui/react-radio-group";
 
-import { ETransactionType } from "../../../../contexts/TransactionContext";
+import { ETransactionType } from "../../../../shared/enuns/ETransactionType";
 
 export const Overlay = styled(Dialog.Overlay)`
   inset: 0;

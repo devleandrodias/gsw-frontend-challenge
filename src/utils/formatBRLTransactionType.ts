@@ -1,4 +1,4 @@
-import { ETransactionType } from "../contexts/TransactionContext";
+import { ETransactionType } from "../shared/enuns/ETransactionType";
 
 export const getTransactionType = (type: ETransactionType) => {
   switch (type) {

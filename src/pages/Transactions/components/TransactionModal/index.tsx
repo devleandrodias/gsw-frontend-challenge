@@ -16,11 +16,8 @@ import {
 import * as Dialog from "@radix-ui/react-dialog";
 
 import { formatBRLCurrency } from "../../../../utils/formatBRLCurrency";
-
-import {
-  ETransactionType,
-  TransactionContext,
-} from "../../../../contexts/TransactionContext";
+import { TransactionContext } from "../../../../contexts/TransactionContext";
+import { ETransactionType } from "../../../../shared/enuns/ETransactionType";
 
 type NewTransactionFormInputs = {
   amount: number;

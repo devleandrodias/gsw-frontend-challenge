@@ -1,5 +1,6 @@
 import styled from "styled-components";
-import { ETransactionType } from "../../../../contexts/TransactionContext";
+
+import { ETransactionType } from "../../../../shared/enuns/ETransactionType";
 
 export const TransactionsTableContainer = styled.main`
   width: 100%;

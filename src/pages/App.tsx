@@ -5,7 +5,7 @@ import { GlobalStyle } from "../styles/global";
 import { defaultTheme } from "../styles/theme/default";
 
 import { Transactions } from "./Transactions";
-import { TransactionProvider } from "../contexts/TransactionContext";
+import { TransactionProvider } from "../contexts/TransactionProvider";
 
 export function App() {
   return (
