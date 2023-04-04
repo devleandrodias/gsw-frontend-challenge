@@ -1,3 +1,4 @@
+import { ToastContainer } from "react-toastify";
 import { ThemeProvider } from "styled-components";
 
 import { GlobalStyle } from "../styles/global";
@@ -10,6 +11,7 @@ export function App() {
   return (
     <ThemeProvider theme={defaultTheme}>
       <GlobalStyle />
+      <ToastContainer />
       <TransactionProvider>
         <Transactions />
       </TransactionProvider>
