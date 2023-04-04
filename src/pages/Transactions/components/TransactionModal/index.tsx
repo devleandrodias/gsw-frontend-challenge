@@ -35,7 +35,9 @@ export function TransactionModal() {
   } = useContext(TransactionContext);
 
   const { reset, register, control, handleSubmit, formState } =
-    useForm<NewTransactionFormInputs>();
+    useForm<NewTransactionFormInputs>({
+      defaultValues: { type: ETransactionType.DEPOSIT },
+    });
 
   const { isSubmitting } = formState;
 
@@ -78,8 +80,6 @@ export function TransactionModal() {
 
       toast.success(successMessage, toastConfigs);
 
-      reset();
-
       await fetchTransactions();
     } catch (error: any) {
       if (error.response.data.statusCode === 400) {
@@ -91,8 +91,10 @@ export function TransactionModal() {
       }
 
       if (error.response.data.statusCode === 500) {
-        toast.warning("Ocorreu um erro não esperado", toastConfigs);
+        toast.error("Ocorreu um erro não esperado", toastConfigs);
       }
+    } finally {
+      reset();
     }
   }
 
@@ -140,7 +142,6 @@ export function TransactionModal() {
                   <TransactionType
                     value={field.value}
                     onValueChange={field.onChange}
-                    {...register("amount", { valueAsNumber: true })}
                   >
                     <TransactionTypeButton
                       value={ETransactionType.DEPOSIT}
