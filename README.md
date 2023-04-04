@@ -31,7 +31,7 @@
 
 Para instalar o projeto, clone este repositório e execute o seguinte comando:
 
-<code>npm install && npm run build && npm run preview</code>
+<code>cp .env.local .env && npm install && npm run build && npm run preview</code>
 
 Isso iniciará o aplicativo e abrirá uma nova janela do navegador. Você pode acessar o aplicativo em http://localhost:4173
 
