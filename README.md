@@ -1,7 +1,7 @@
 # GSW Frontend Challenge
 
 <p align="center">
-  <img src="src/assets/application-example.png" alt="texto alternativo" width="1100" height="500" />
+  <img src="src/assets/gsw-logo.png" alt="texto alternativo"  />
 </p>
 
 ## :dart: Objetivo
