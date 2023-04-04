@@ -51,7 +51,6 @@ export function TransactionModal() {
     type,
     amount,
   }: NewTransactionFormInputs) {
-    console.log(type, amount);
     setNotes([]);
 
     let successMessage = "";
