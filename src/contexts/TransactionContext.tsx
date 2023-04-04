@@ -8,9 +8,19 @@ import {
 
 import { api } from "../lib/axios";
 
-export interface CreateTransactionInput {
+export interface CreateDepositTransactionInput {
   amount: number;
-  type: ETransactionType;
+}
+
+export interface CreateWithdrawTransactionInput {
+  amount: number;
+}
+
+export interface CreateWithdrawTransactionOutput {
+  notes: {
+    note: number;
+    quantity: number;
+  }[];
 }
 
 export enum ETransactionType {
@@ -30,14 +40,20 @@ export interface TransactionContextType {
   balance: number;
   transactions: Transaction[];
   fetchTransactions: () => Promise<void>;
-  createTransaction: (data: CreateTransactionInput) => Promise<void>;
+  createDepositTransaction: (
+    data: CreateDepositTransactionInput
+  ) => Promise<void>;
+  createWithdrawTransaction: (
+    data: CreateWithdrawTransactionInput
+  ) => Promise<CreateWithdrawTransactionOutput>;
 }
 
 export const TransactionContext = createContext<TransactionContextType>({
   balance: 0,
   transactions: [],
   fetchTransactions: async () => {},
-  createTransaction: async () => {},
+  createDepositTransaction: async () => {},
+  createWithdrawTransaction: async () => ({ notes: [] }),
 });
 
 export interface TransactionProviderProps {
@@ -60,15 +76,21 @@ export function TransactionProvider({ children }: TransactionProviderProps) {
     setTransactions(data.transactions);
   }, []);
 
-  const createTransaction = useCallback(
-    async (data: CreateTransactionInput) => {
-      if (data.type === ETransactionType.DEPOSIT) {
-        await api.post("/atm/deposit", { amount: data.amount });
-      }
+  const createDepositTransaction = useCallback(
+    async ({ amount }: CreateDepositTransactionInput) => {
+      await api.post("/atm/deposit", { amount });
+    },
+    []
+  );
 
-      if (data.type === ETransactionType.WITHDRAWAL) {
-        await api.post("/atm/withdraw", { amount: data.amount });
-      }
+  const createWithdrawTransaction = useCallback(
+    async ({ amount }: CreateWithdrawTransactionInput) => {
+      const response = await api.post<CreateWithdrawTransactionOutput>(
+        "/atm/withdraw",
+        { amount }
+      );
+
+      return response.data;
     },
     []
   );
@@ -79,7 +101,13 @@ export function TransactionProvider({ children }: TransactionProviderProps) {
 
   return (
     <TransactionContext.Provider
-      value={{ transactions, balance, fetchTransactions, createTransaction }}
+      value={{
+        balance,
+        transactions,
+        fetchTransactions,
+        createDepositTransaction,
+        createWithdrawTransaction,
+      }}
     >
       {children}
     </TransactionContext.Provider>
